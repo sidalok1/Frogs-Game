@@ -229,7 +229,7 @@ GameObject:
   - component: {fileID: 247080231}
   m_Layer: 0
   m_Name: Foreground
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -258,7 +258,7 @@ TilemapCollider2D:
   m_GameObject: {fileID: 247080229}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 3f4b5a84fd458c14d9ac543f0f91b81e, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -3020,6 +3020,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1963467005}
   - component: {fileID: 1963467006}
+  - component: {fileID: 1963467008}
   - component: {fileID: 1963467003}
   - component: {fileID: 1963467002}
   - component: {fileID: 1963467001}
@@ -3045,10 +3046,10 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 3
+  m_LinearDrag: 1
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 628104f40f51f1545bd8df5be7e3d21b, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -3091,9 +3092,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.010244906, y: -0.16250604}
+  m_Offset: {x: 0.010244906, y: -0.16026169}
   serializedVersion: 2
-  m_Radius: 0.34179014
+  m_Radius: 0.3395458
 --- !u!61 &1963467003
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3200,7 +3201,7 @@ Transform:
   m_GameObject: {fileID: 1963467000}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.519, y: -1.475, z: 0}
+  m_LocalPosition: {x: 0.519, y: -0.732, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3218,8 +3219,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dcbd00eafead564182b5e94e8bf151c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0.5
-  spdLimit: 10
+  animator: {fileID: 1963467008}
+  speed: 0.75
+  spdLimit: 6
+  jmpVal: 7
 --- !u!114 &1963467007
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3250,6 +3253,27 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!95 &1963467008
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1963467000}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: feb4cb2b8d98be847964326cbefbb2d5, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
