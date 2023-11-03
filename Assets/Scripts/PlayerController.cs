@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
     private bool facingLeft;
     //If player puts left input while facing right and vice versa, the sprite flips directions
     private bool canJump;
-    private int[] iter = {0, 0};
+    // private int[] iter = {0, 0};
     void Start() {
         rb = GetComponent<Rigidbody2D>(); 
         animator.SetBool("isMoving", false);
@@ -32,24 +32,27 @@ public class PlayerController : MonoBehaviour
         } else {
             animator.SetBool("isMoving", false);
         }
-        if (rb.velocity.y > 1f) {
-            iter[0] += 1;
-            if (iter[0] == 5) {
-                animator.SetBool("ascending", true);
+        if (rb.velocity.y > 0.5f) {
+            animator.SetBool("ascending", true);
+            /* iter[0] += 1;
+            if (iter[0] == 3) {
+                // animator.SetBool("ascending", true);
                 iter[0] = 0;
-            }
+            } */
         } else {
-            iter[0] = 0;
+            // iter[0] = 0;
         }
-        if (rb.velocity.y < -1f) {
-            iter[1] += 1;
-            if (iter[1] == 5) {
+        if (rb.velocity.y < -0.5f) {
+            animator.SetBool("falling", true);
+            animator.SetBool("ascending", false);
+            // iter[1] += 1;
+            /* if (iter[1] == 3) {
                 animator.SetBool("falling", true);
                 animator.SetBool("ascending", false);
                 iter[1] = 0;
-            }
+            } */
         } else {
-            iter[1] = 0;
+            // iter[1] = 0;
         }
         if (canJump == true) {
             
