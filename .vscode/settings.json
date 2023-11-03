@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "Frogs_Go_NUCLEAR.sln"
+    "dotnet.defaultSolution": "Frogs-Game.sln"
 }
