@@ -3498,6 +3498,7 @@ MonoBehaviour:
   speed: 0.75
   spdLimit: 6
   jmpVal: 7
+  cam: {fileID: 206558357}
 --- !u!114 &1963467007
 MonoBehaviour:
   m_ObjectHideFlags: 0

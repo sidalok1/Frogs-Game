@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    enum Dir {Left, Right};
     public Animator animator;
     [SerializeField] private float speed;
     //Speed is the acceleration factor to be applied to the input in order to calculate the impulse added
@@ -14,19 +15,22 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float jmpVal;
     private float modjmp;
     private Rigidbody2D rb;
+    [SerializeField] private Camera cam;
     private float movX;
     private float movY;
     private Vector2 movForce;
-    private bool facingLeft;
+    private Vector2 mousePos;
     //If player puts left input while facing right and vice versa, the sprite flips directions
+    private Dir facing;
     private bool canJump;
     private bool wallJump;
     private bool jumping;
+    private Dir wall;
     // private int[] iter = {0, 0};
     void Start() {
         rb = GetComponent<Rigidbody2D>(); 
         animator.SetBool("isMoving", false);
-        facingLeft = false;
+        facing = Dir.Right;
         modjmp = jmpVal * 0.8f;
     }
 
@@ -46,6 +50,13 @@ public class PlayerController : MonoBehaviour
         if (canJump == true) {
             animator.SetBool("ascending", false);
             animator.SetBool("falling", false);
+        }
+        if ((rb.position.x - mousePos.x) < 0.0f && facing == Dir.Left) {
+            transform.Rotate(0.0f, -180.0f, 0.0f, Space.Self);
+            facing = Dir.Right;
+        } else if ((rb.position.x - mousePos.x) > 0.0f && facing == Dir.Right) {
+            transform.Rotate(0.0f, 180.0f, 0.0f, Space.Self);
+            facing = Dir.Left;
         }
         //Debug.Log(rb.velocity.y);
     }
@@ -69,15 +80,15 @@ public class PlayerController : MonoBehaviour
             animator.SetBool("onGround", false); 
             return;
         } else if (wallJump) {
-            if (facingLeft) {
-                transform.Rotate(0.0f, -180.0f, 0.0f, Space.Self);
-                facingLeft = false;
+            if (wall == Dir.Left) {
+                /* transform.Rotate(0.0f, -180.0f, 0.0f, Space.Self);
+                facingLeft = false; */
                 //movForce = new Vector2(jmpVal, modjmp);
                 //rb.AddForce(movForce, ForceMode2D.Impulse);
                 rb.velocity = new Vector2(modjmp, jmpVal);
-            } else if (!facingLeft) {
-                transform.Rotate(0.0f, 180.0f, 0.0f, Space.Self);
-                facingLeft = true;
+            } else if (wall == Dir.Right) {
+                /* transform.Rotate(0.0f, 180.0f, 0.0f, Space.Self);
+                facingLeft = true; */
                 //movForce = new Vector2(-jmpVal, modjmp);
                 //rb.AddForce(movForce, ForceMode2D.Impulse);
                 rb.velocity = new Vector2(-modjmp, jmpVal);
@@ -91,16 +102,21 @@ public class PlayerController : MonoBehaviour
     void OnMove(InputValue mov) {
         Vector2 v = mov.Get<Vector2>();
 
-        if (v.x > 0.0f && facingLeft) {
+        /* if (v.x > 0.0f && facingLeft) {
             transform.Rotate(0.0f, -180.0f, 0.0f, Space.Self);
             facingLeft = false;
         } else if (v.x < 0.0f && !facingLeft) {
             transform.Rotate(0.0f, 180.0f, 0.0f, Space.Self);
             facingLeft = true;
-        }
+        } */
         
         movX = v.x;
         
+    }
+
+    void OnLook(InputValue look) {
+        Vector2 p = look.Get<Vector2>();
+        mousePos = cam.ScreenToWorldPoint(p);
     }
 
     
@@ -111,7 +127,17 @@ public class PlayerController : MonoBehaviour
             animator.SetBool("onGround", true);
         }
         if (other.gameObject.CompareTag("Wall")) {
-            wallJump = true;
+            ContactPoint2D conPoint = other.GetContact(other.contactCount - 1);
+            if (conPoint.normal.y > 0) {
+                canJump = true;
+                animator.SetBool("onGround", true);
+            }else if (conPoint.normal.x < 0) {
+                wallJump = true;
+                wall = Dir.Right;
+            } else if (conPoint.normal.x > 0) {
+                wallJump = true;
+                wall = Dir.Left;
+            }
         }
         
     }
