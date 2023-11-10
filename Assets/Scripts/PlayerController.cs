@@ -42,14 +42,6 @@ public class PlayerController : MonoBehaviour
         if (rb.velocity.y < -0.5f) {
             animator.SetBool("falling", true);
             animator.SetBool("ascending", false);
-            // iter[1] += 1;
-            /* if (iter[1] == 3) {
-                animator.SetBool("falling", true);
-                animator.SetBool("ascending", false);
-                iter[1] = 0;
-            } */
-        } else {
-            // iter[1] = 0;
         }
         if (canJump == true) {
             animator.SetBool("ascending", false);
@@ -63,7 +55,7 @@ public class PlayerController : MonoBehaviour
            movForce = new Vector2(movX, 0.0f);
            rb.AddForce(movForce * speed, ForceMode2D.Impulse);
         }
-        if (jumping == true) {
+        if (jumping) {
             jump();
         }
     }
