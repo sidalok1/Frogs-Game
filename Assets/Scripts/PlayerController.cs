@@ -7,6 +7,8 @@ public class PlayerController : MonoBehaviour
 {
     enum Dir {Left, Right};
     public Animator animator;
+
+    public Vector3 startPosition;
     [SerializeField] private float speed;
     //Speed is the acceleration factor to be applied to the input in order to calculate the impulse added
 
@@ -32,6 +34,8 @@ public class PlayerController : MonoBehaviour
     private Vector3 scaleRight;
     // private int[] iter = {0, 0};
     void Start() {
+        startPosition = transform.position;
+
         rb = GetComponent<Rigidbody2D>(); 
         animator.SetBool("isMoving", false);
         facing = Dir.Right;
@@ -137,6 +141,11 @@ public class PlayerController : MonoBehaviour
                 wallJump = true;
                 wall = Dir.Left;
             }
+        }
+        if (other.gameObject.CompareTag("Spike")) {
+            // player should go back to the restart point
+            transform.position = startPosition;
+            Debug.Log("colliding");
         }
         
     }
