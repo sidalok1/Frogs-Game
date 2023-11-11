@@ -15,23 +15,29 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float jmpVal;
     private float modjmp;
     private Rigidbody2D rb;
+    [SerializeField] private Rigidbody2D head; 
     [SerializeField] private Camera cam;
     private float movX;
     private float movY;
     private Vector2 movForce;
     private Vector2 mousePos;
+    private float angle;
     //If player puts left input while facing right and vice versa, the sprite flips directions
     private Dir facing;
     private bool canJump;
     private bool wallJump;
     private bool jumping;
     private Dir wall;
+    private Vector3 scaleLeft;
+    private Vector3 scaleRight;
     // private int[] iter = {0, 0};
     void Start() {
         rb = GetComponent<Rigidbody2D>(); 
         animator.SetBool("isMoving", false);
         facing = Dir.Right;
         modjmp = jmpVal * 0.8f;
+        scaleLeft = new Vector3(-1f, 1f, 1f);
+        scaleRight = new Vector3(1f, 1f, 1);
     }
 
     private void Update() {
@@ -51,13 +57,7 @@ public class PlayerController : MonoBehaviour
             animator.SetBool("ascending", false);
             animator.SetBool("falling", false);
         }
-        if ((rb.position.x - mousePos.x) < 0.0f && facing == Dir.Left) {
-            transform.Rotate(0.0f, -180.0f, 0.0f, Space.Self);
-            facing = Dir.Right;
-        } else if ((rb.position.x - mousePos.x) > 0.0f && facing == Dir.Right) {
-            transform.Rotate(0.0f, 180.0f, 0.0f, Space.Self);
-            facing = Dir.Left;
-        }
+        
         //Debug.Log(rb.velocity.y);
     }
 
@@ -69,28 +69,21 @@ public class PlayerController : MonoBehaviour
         if (jumping) {
             jump();
         }
+        
+        
+        
     }
 
     void jump() {
         if (canJump) {
-            //movForce = new Vector2(0.0f, jmpVal);
-            //rb.AddForce(movForce, ForceMode2D.Impulse);
             rb.velocity = new Vector2(rb.velocity.x, jmpVal);
             canJump = false;
             animator.SetBool("onGround", false); 
             return;
         } else if (wallJump) {
             if (wall == Dir.Left) {
-                /* transform.Rotate(0.0f, -180.0f, 0.0f, Space.Self);
-                facingLeft = false; */
-                //movForce = new Vector2(jmpVal, modjmp);
-                //rb.AddForce(movForce, ForceMode2D.Impulse);
                 rb.velocity = new Vector2(modjmp, jmpVal);
             } else if (wall == Dir.Right) {
-                /* transform.Rotate(0.0f, 180.0f, 0.0f, Space.Self);
-                facingLeft = true; */
-                //movForce = new Vector2(-jmpVal, modjmp);
-                //rb.AddForce(movForce, ForceMode2D.Impulse);
                 rb.velocity = new Vector2(-modjmp, jmpVal);
             }
         }
@@ -101,22 +94,28 @@ public class PlayerController : MonoBehaviour
 
     void OnMove(InputValue mov) {
         Vector2 v = mov.Get<Vector2>();
-
-        /* if (v.x > 0.0f && facingLeft) {
-            transform.Rotate(0.0f, -180.0f, 0.0f, Space.Self);
-            facingLeft = false;
-        } else if (v.x < 0.0f && !facingLeft) {
-            transform.Rotate(0.0f, 180.0f, 0.0f, Space.Self);
-            facingLeft = true;
-        } */
-        
         movX = v.x;
-        
     }
 
     void OnLook(InputValue look) {
         Vector2 p = look.Get<Vector2>();
-        mousePos = cam.ScreenToWorldPoint(p);
+        p = cam.ScreenToWorldPoint(p);
+        mousePos = rb.position - p;
+        if (mousePos.x < 0.0f && facing == Dir.Left) {
+            //transform.Rotate(0.0f, -180.0f, 0.0f, Space.Self);
+            transform.localScale = scaleRight;
+            facing = Dir.Right;
+        } else if (mousePos.x > 0.0f && facing == Dir.Right) {
+            //transform.Rotate(0.0f, 180.0f, 0.0f, Space.Self);
+            transform.localScale = scaleLeft;
+            facing = Dir.Left;
+        }
+        angle = Mathf.Atan2(mousePos.y, mousePos.x) * Mathf.Rad2Deg + 180f;
+        if (angle > 90f && angle < 270f) {
+            head.SetRotation(angle - 180f);
+        } else {
+            head.SetRotation(angle);
+        }
     }
 
     
