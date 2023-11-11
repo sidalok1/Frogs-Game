@@ -7,6 +7,8 @@ TagManager:
   - Ground
   - Wall
   - Spike
+  - ReactorPart
+  - Enemy
   layers:
   - Default
   - TransparentFX

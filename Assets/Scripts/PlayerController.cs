@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -146,6 +147,14 @@ public class PlayerController : MonoBehaviour
             // player should go back to the restart point
             transform.position = startPosition;
             Debug.Log("colliding");
+        }
+        if (other.gameObject.CompareTag("Enemy")) {
+            // player should go back to the restart point
+            transform.position = startPosition;
+            Debug.Log("colliding");
+        }
+        if (other.gameObject.CompareTag("ReactorPart")) {
+            SceneManager.LoadScene(2);
         }
         
     }
