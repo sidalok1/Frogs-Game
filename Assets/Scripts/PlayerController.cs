@@ -143,7 +143,7 @@ public class PlayerController : MonoBehaviour
                 wall = Dir.Left;
             }
         }
-        if (other.gameObject.CompareTag("Spike") || other.gameObject.CompareTag("Fire")) {
+        if (other.gameObject.CompareTag("Spike") || other.gameObject.CompareTag("Fire") || other.gameObject.CompareTag("Block")) {
             // player should go back to the restart point
             transform.position = startPosition;
             Debug.Log("colliding");

@@ -10,6 +10,7 @@ TagManager:
   - ReactorPart
   - Enemy
   - Fire
+  - Block
   layers:
   - Default
   - TransparentFX
