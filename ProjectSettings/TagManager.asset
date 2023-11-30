@@ -9,6 +9,8 @@ TagManager:
   - Spike
   - ReactorPart
   - Enemy
+  - Fire
+  - Block
   layers:
   - Default
   - TransparentFX
