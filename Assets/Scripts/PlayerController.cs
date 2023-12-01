@@ -9,6 +9,9 @@ public class PlayerController : MonoBehaviour
     enum Dir {Left, Right};
     public Animator animator;
 
+    public AudioSource jumpAudio;
+    public AudioSource pickupAudio;
+
     public Vector3 startPosition;
     [SerializeField] private float speed;
     //Speed is the acceleration factor to be applied to the input in order to calculate the impulse added
@@ -94,6 +97,7 @@ public class PlayerController : MonoBehaviour
         }
     }
     void OnJump () {
+        jumpAudio.Play();
         jumping = !jumping;
     }
 
@@ -154,6 +158,7 @@ public class PlayerController : MonoBehaviour
             Debug.Log("colliding");
         }
         if (other.gameObject.CompareTag("ReactorPart")) {
+            pickupAudio.Play();
             SceneManager.LoadScene(2);
         }
         
