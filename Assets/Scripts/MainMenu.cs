@@ -18,6 +18,14 @@ public class MainMenu : MonoBehaviour
 
     }
 
+    public void OnOptionsButton () { // controls for volume
+
+    }
+
+    public void OnCreditsButton () { // controls for volume
+
+    }
+
     public void OnQuitButton () { // closes the game
         Application.Quit();
     }
