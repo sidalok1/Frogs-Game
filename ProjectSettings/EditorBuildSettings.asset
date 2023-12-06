@@ -12,7 +12,7 @@ EditorBuildSettings:
     path: Assets/Scenes/ReactorRoom.unity
     guid: d5e78a04e14da4cc4b5dde666bab98eb
   - enabled: 1
-    path: Assets/Scenes/Reactor/Reactor.unity
+    path: Assets/Scenes/Reactor/R1/R12.unity
     guid: b257bb3debf5e4234b88390d724a69a1
   - enabled: 0
     path: Assets/Scenes/SampleScene.unity
