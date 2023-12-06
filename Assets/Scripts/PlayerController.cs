@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     private float modjmp;
     private Rigidbody2D rb;
     [SerializeField] private Rigidbody2D head; 
+    [SerializeField] private GameObject tounge;
     [SerializeField] private Camera cam;
     private float movX;
     private float movY;
@@ -30,6 +31,8 @@ public class PlayerController : MonoBehaviour
     private bool canJump;
     private bool wallJump;
     private bool jumping;
+    private bool charging;
+    private bool attacking;
     private Dir wall;
     private Vector3 scaleLeft;
     private Vector3 scaleRight;
@@ -121,9 +124,31 @@ public class PlayerController : MonoBehaviour
         } else {
             head.SetRotation(angle);
         }
+        if (angle > 10f && angle < 170f) {
+            animator.SetBool("Forward", false);
+            animator.SetBool("Up", true);
+        } else if (angle > 215f && angle < 325f) {
+            animator.SetBool("Forward", false);
+            animator.SetBool("Down", true);
+        } else {
+            animator.SetBool("Up", false);
+            animator.SetBool("Down", false);
+            animator.SetBool("Forward", true);
+        }
     }
 
-    
+    void OnFire() {
+        charging = !charging;
+        if (charging == true) {
+            animator.SetBool("Charging", true);
+            animator.SetBool("Attack", false);
+        }
+        else {
+            animator.SetBool("Charging", false);
+            animator.SetBool("Attack", true);
+
+        }
+    }
 
     private void OnCollisionEnter2D(Collision2D other) {
         if (other.gameObject.CompareTag("Ground")) {
@@ -167,5 +192,9 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("Wall")) {
             wallJump = false;
         }
+    }
+
+    IEnumerator Tounge() {
+        yield return null;
     }
 }
