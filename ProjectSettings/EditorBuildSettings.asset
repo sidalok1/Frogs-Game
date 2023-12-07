@@ -12,25 +12,55 @@ EditorBuildSettings:
     path: Assets/Scenes/Level 1.unity
     guid: d5e78a04e14da4cc4b5dde666bab98eb
   - enabled: 1
-    path: Assets/Scenes/Reactor/R1/R12.unity
-    guid: b257bb3debf5e4234b88390d724a69a1
-  - enabled: 0
-    path: Assets/Scenes/SampleScene.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
+    path: Assets/Scenes/Reactor/R1/R11.unity
+    guid: 18973105c4a3644f79ce204f3e4fd7af
   - enabled: 1
-    path: Assets/Scenes/Reactor/R4/R42.unity
-    guid: d38600b2bebbc4fd7b3db495ee0ec73f
+    path: Assets/Scenes/Reactor/R1/R12.unity
+    guid: 3b0e1e497c5f64bffa85733e98830d9c
+  - enabled: 1
+    path: Assets/Scenes/Reactor/R1/R13.unity
+    guid: d8b85850bcbc64160ad12cd809e7ae4f
   - enabled: 1
     path: Assets/Scenes/Level 2.unity
     guid: 4bf8b9eeb2abb4b12ba1b2394883be11
   - enabled: 1
-    path: Assets/Scenes/Level 4.unity
-    guid: d0801edfbe79843b0a254c1af6f847d7
+    path: Assets/Scenes/Reactor/R2/R21.unity
+    guid: 955b18a3a24404abba912fa4aeb4bcb7
+  - enabled: 1
+    path: Assets/Scenes/Reactor/R2/R22.unity
+    guid: 6e80215d279cd47468b5ade2496720f8
+  - enabled: 1
+    path: Assets/Scenes/Reactor/R2/R23.unity
+    guid: 892a5d7aa1a9b45deb1c402d8cafb53d
   - enabled: 1
     path: Assets/Scenes/Level 3.unity
     guid: 2f2319e27754e524887d8d5813a84bc5
   - enabled: 1
+    path: Assets/Scenes/Reactor/R3/R31.unity
+    guid: 6b68013dcffeb460eb07e370e7c58fab
+  - enabled: 1
+    path: Assets/Scenes/Reactor/R3/R32.unity
+    guid: bc00db41f34394cd9afa4750c998f32f
+  - enabled: 1
+    path: Assets/Scenes/Reactor/R3/R33.unity
+    guid: dfdea68ed1470445486bcea1875ce118
+  - enabled: 1
+    path: Assets/Scenes/Level 4.unity
+    guid: d0801edfbe79843b0a254c1af6f847d7
+  - enabled: 1
+    path: Assets/Scenes/Reactor/R4/R41.unity
+    guid: ff3cf8714cf414e4cb787e5c1d65a27d
+  - enabled: 1
+    path: Assets/Scenes/Reactor/R4/R42.unity
+    guid: d38600b2bebbc4fd7b3db495ee0ec73f
+  - enabled: 1
+    path: Assets/Scenes/Reactor/R4/R43.unity
+    guid: cdb88b0dd29c54e8285b700535b7f61d
+  - enabled: 1
     path: Assets/Scenes/End Scene.unity
     guid: 752d77146b9dc4308bf5825797b205ae
+  - enabled: 0
+    path: Assets/Scenes/SampleScene.unity
+    guid: 2cda990e2423bbf4892e6590ba056729
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 13ffb97653f73c3438a8daff333021a1, type: 2}
