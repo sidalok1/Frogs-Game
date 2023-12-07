@@ -13,6 +13,7 @@ public class hasPart : MonoBehaviour
     [SerializeField] public GameObject Banner;
 
     [Header("Fan Not Overlapped")]
+    [SerializeField] public GameObject fan;
 
      [Header("Fan Overlapped")]
     [SerializeField] public GameObject fan1;

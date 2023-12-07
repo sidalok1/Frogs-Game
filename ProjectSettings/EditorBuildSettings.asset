@@ -17,5 +17,14 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/Reactor/R4/R42.unity
+    guid: d38600b2bebbc4fd7b3db495ee0ec73f
+  - enabled: 1
+    path: Assets/Scenes/Level 2.unity
+    guid: 4bf8b9eeb2abb4b12ba1b2394883be11
+  - enabled: 1
+    path: Assets/Scenes/Level 4.unity
+    guid: d0801edfbe79843b0a254c1af6f847d7
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 13ffb97653f73c3438a8daff333021a1, type: 2}
