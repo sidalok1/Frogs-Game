@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
 
     public AudioSource jumpAudio;
     public AudioSource pickupAudio;
+    public AudioSource restartAudio;
 
     public Vector3 startPosition;
     [SerializeField] private float speed;
@@ -149,11 +150,13 @@ public class PlayerController : MonoBehaviour
         }
         if (other.gameObject.CompareTag("Spike") || other.gameObject.CompareTag("Fire") || other.gameObject.CompareTag("Block")) {
             // player should go back to the restart point
+            restartAudio.Play();
             transform.position = startPosition;
             Debug.Log("colliding");
         }
         if (other.gameObject.CompareTag("Enemy")) {
             // player should go back to the restart point
+            restartAudio.Play();
             transform.position = startPosition;
             Debug.Log("colliding");
         }
