@@ -10,16 +10,14 @@ public class PlayerController : MonoBehaviour
     public Animator animator;
 
     public Vector3 startPosition;
-    [SerializeField] private float speed;
-    //Speed is the acceleration factor to be applied to the input in order to calculate the impulse added
-
-    [SerializeField] private float spdLimit;
-    //If the current x - velocity exceeds the speed limit, do not add force. Only works with drag and friction.
-    [SerializeField] private float jmpVal;
+    
     private float modjmp;
     private Rigidbody2D rb;
+    public DistanceJoint2D joint;
     [SerializeField] private Rigidbody2D head; 
-    [SerializeField] private GameObject tounge;
+    //public Tongue tongue;
+    public LineRenderer tongue;
+    public Transform firePoint;
     [SerializeField] private Camera cam;
     private float movX;
     private float movY;
@@ -33,19 +31,46 @@ public class PlayerController : MonoBehaviour
     private bool jumping;
     private bool charging;
     private bool attacking;
+    private bool isGrappling;
     private Dir wall;
     private Vector3 scaleLeft;
     private Vector3 scaleRight;
     // private int[] iter = {0, 0};
+
+    private Coroutine coroutine;
+
+    private RaycastHit2D _hit;
+    private float i;
+    private Vector2 p;
+    private Vector2 target;
+
+    [Header("Tongue Distance:")]
+    [SerializeField] private float maxDistnace = 50;
+
+    [Header("Speed Values:")]
+    [SerializeField] private float speed;
+    //Speed is the acceleration factor to be applied to the input in order to calculate the impulse added
+    [SerializeField] private float spdLimit;
+    //If the current x - velocity exceeds the speed limit, do not add force. Only works with drag and friction.
+    [SerializeField] private float jmpVal;
+    [SerializeField] private float rapSpeed;
+
+
+
     void Start() {
         startPosition = transform.position;
 
         rb = GetComponent<Rigidbody2D>(); 
+        //tongue.GetComponent<LineRenderer>();
+        //joint = GetComponent<DistanceJoint2D>();
         animator.SetBool("isMoving", false);
         facing = Dir.Right;
         modjmp = jmpVal * 0.8f;
         scaleLeft = new Vector3(-1f, 1f, 1f);
         scaleRight = new Vector3(1f, 1f, 1);
+
+        tongue.enabled = false;
+        joint.enabled = false;
     }
 
     private void Update() {
@@ -65,6 +90,11 @@ public class PlayerController : MonoBehaviour
             animator.SetBool("ascending", false);
             animator.SetBool("falling", false);
         }
+        if (isGrappling == true) {
+            tongue.SetPosition(0, firePoint.position);
+        } else {
+            animator.SetBool("Attack", false);
+        }
         
         //Debug.Log(rb.velocity.y);
     }
@@ -77,9 +107,9 @@ public class PlayerController : MonoBehaviour
         if (jumping) {
             jump();
         }
-        
-        
-        
+        if (joint.enabled) {
+            joint.distance += movY * rapSpeed * Time.deltaTime;
+        }
     }
 
     void jump() {
@@ -103,6 +133,7 @@ public class PlayerController : MonoBehaviour
     void OnMove(InputValue mov) {
         Vector2 v = mov.Get<Vector2>();
         movX = v.x;
+        movY = v.y;
     }
 
     void OnLook(InputValue look) {
@@ -142,15 +173,33 @@ public class PlayerController : MonoBehaviour
         if (charging == true) {
             animator.SetBool("Charging", true);
             animator.SetBool("Attack", false);
+            Debug.Log("Charging");
         }
         else {
             animator.SetBool("Charging", false);
             animator.SetBool("Attack", true);
+            isGrappling = true;
+            SetGrapplePoint();
+            Debug.Log("Not Charging");
+        }
+    }
 
+    void OnCancel() {
+        if (isGrappling) {
+            isGrappling = false;
+            StopAllCoroutines();
+            tongue.enabled = false;
+            joint.enabled = false;
         }
     }
 
     private void OnCollisionEnter2D(Collision2D other) {
+        if (isGrappling == true) {
+            isGrappling = false;
+            StopAllCoroutines();
+            tongue.enabled = false;
+            joint.enabled = false;
+        }
         if (other.gameObject.CompareTag("Ground")) {
             canJump = true;
             animator.SetBool("onGround", true);
@@ -170,11 +219,13 @@ public class PlayerController : MonoBehaviour
         }
         if (other.gameObject.CompareTag("Spike")) {
             // player should go back to the restart point
+            
             transform.position = startPosition;
             Debug.Log("colliding");
         }
         if (other.gameObject.CompareTag("Enemy")) {
             // player should go back to the restart point
+            
             transform.position = startPosition;
             Debug.Log("colliding");
         }
@@ -194,7 +245,67 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    IEnumerator Tounge() {
+    IEnumerator sendTongue(Vector2 t) {
+        Debug.Log("Coroutine");
+        if (i <= 1f) {
+            p = Vector2.Lerp(firePoint.position, t, Time.deltaTime);
+            tongue.SetPosition(1, p);
+            i = i + 0.1f;
+            yield return null;
+        } else {
+            tongue.SetPosition(1, t);
+            yield break;
+        }
+        
+    }
+    IEnumerator recieveTongue() {
+        if (i >= 0f) {
+            p = Vector2.Lerp(firePoint.position, target, i);
+            tongue.SetPosition(1, p);
+            i -= Time.deltaTime * 0.01f;
+        } else {
+            tongue.SetPosition(1, firePoint.position);
+            tongue.enabled = false;
+            yield break;
+        }
         yield return null;
+    }
+
+    void SetGrapplePoint()
+    {
+        Vector2 distanceVector = cam.ScreenToWorldPoint(Input.mousePosition) - firePoint.position;
+        tongue.enabled = true;
+        tongue.SetPosition(0, firePoint.position);
+        tongue.SetPosition(1, firePoint.position);
+        
+    
+        _hit = Physics2D.Raycast(firePoint.position, distanceVector.normalized);
+        Debug.Log("Casted");
+        if (_hit.collider != null) {
+            Debug.Log("Hit");
+            Debug.Log(_hit.distance);
+            Debug.Log(_hit.point);
+            if (_hit.distance <= maxDistnace) {
+                target = _hit.point;
+                i = 0f;
+                //coroutine = StartCoroutine(sendTongue(target));
+                tongue.SetPosition(1, target);
+                joint.enabled = true;
+                joint.anchor = Vector2.zero;
+                joint.connectedAnchor = _hit.point;
+                //joint.connectedBody = _hit.rigidbody;
+                //joint.distance = _hit.distance;
+                
+            } else {
+                tongue.enabled = false;
+            }
+        } else {
+            Debug.Log("Missed");
+            target = distanceVector;
+            i = 1f;
+            tongue.enabled = false;
+            isGrappling = false;
+            //coroutine = StartCoroutine(recieveTongue());
+        }
     }
 }

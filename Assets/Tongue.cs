@@ -5,7 +5,7 @@ using UnityEngine;
 public class Tongue : MonoBehaviour
 {
     [Header("General Refernces:")]
-    public GameObject head;
+    public Head head;
     public LineRenderer m_lineRenderer;
 
     [Header("General Settings:")]
@@ -76,7 +76,7 @@ public class Tongue : MonoBehaviour
         {
             if (!isGrappling)
             {
-                head.Grapple();
+                //head.Grapple();
                 isGrappling = true;
             }
             if (waveSize > 0)

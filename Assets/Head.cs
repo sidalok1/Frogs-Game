@@ -5,7 +5,7 @@ using UnityEngine;
 public class Head : MonoBehaviour
 {
     [Header("Scripts Ref:")]
-    public GameObject tongue;
+    public Tongue tongue;
 
     [Header("Layers Settings:")]
     [SerializeField] private bool grappleToAll = true;
@@ -67,12 +67,12 @@ public class Head : MonoBehaviour
         {
             if (tongue.enabled)
             {
-                RotateGun(grapplePoint, false);
+                //RotateGun(grapplePoint, false);
             }
             else
             {
                 Vector2 mousePos = m_camera.ScreenToWorldPoint(Input.mousePosition);
-                RotateGun(mousePos, true);
+                //RotateGun(mousePos, true);
             }
 
             if (launchToPoint && tongue.isGrappling)
@@ -94,7 +94,7 @@ public class Head : MonoBehaviour
         else
         {
             Vector2 mousePos = m_camera.ScreenToWorldPoint(Input.mousePosition);
-            RotateGun(mousePos, true);
+            //RotateGun(mousePos, true);
         }
     }
 
