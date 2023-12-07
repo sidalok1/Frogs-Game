@@ -7472,8 +7472,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 1963467008}
-  jumpAudio: {fileID: 0}
-  pickupAudio: {fileID: 0}
+  jumpAudio: {fileID: 2091661291}
+  pickupAudio: {fileID: 1132574960}
   startPosition: {x: 0, y: 0, z: 0}
   speed: 0.75
   spdLimit: 6
